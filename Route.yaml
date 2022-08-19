@@ -1,0 +1,16 @@
+  apiVersion: build.openshift.io/v1
+  kind: Route
+  metadata:
+    name: dotnet-test
+    namespace: testvishnuproject
+    labels:
+      app: dotnet-test
+    annotations:
+  spec:
+    to:
+      kind: Service
+      name: dotnet-test
+      weight: 100
+    port:
+      targetPort: 8080-tcp
+  wildcardPolicy: None

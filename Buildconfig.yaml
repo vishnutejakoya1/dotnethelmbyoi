@@ -1,0 +1,48 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: dotnet-test #Appname
+  namespace: testprojectvishnu #project name
+  labels:
+    app: dotnet-test
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/vishnutejakoya1/sample_crud #Git url
+      ref: main # branch_name
+    contextDir: httpd-hello-world
+    triggers:                         # Add triggers from line 15-19  for git access
+      - type: Github
+        github:
+          secretReference:
+            name: githib-webhook-secret #
+  strategy:
+    type: Docker                      
+    dockerStrategy:
+      dockerfilePath: Dockerfile    # Look for Dockerfile in git, this docker file is converted as image
+  output:
+    to:
+      kind: ImageStreamTag
+      name: dotnet-test:latest #appname latesdt tag
+
+
+# apiVersion: build.openshift.io/v1
+# kind: BuildConfig
+# metadata:
+#   name: Dot-net
+# spec:
+#   source:
+#     type: Git
+#     git:
+#       uri: <GIT URI>   # url to clone this code
+#     contextDir: httpd-dot-net                    # cd to this directory
+#     dockerfile: |
+#       FROM bitnami/apache:latest    // Customchanges if needed
+#       COPY ./public_html/ /app
+#   strategy:
+#     type: Docker
+#   output:
+#     to:
+#       kind: ImageStreamTag
+#       name: mywebsite:latest
